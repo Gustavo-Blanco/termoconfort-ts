@@ -18,7 +18,7 @@ export class Component {
         path.join(componentsPath, this.name.toLowerCase(), "interface.ts"),
         this.interfaceContent()
       );
-      console.log("Component build successfully");
+      console.log(`Component ${this.name} build successfully`);
     } catch (error) {
       console.log("File or directory already exists");
     }
