@@ -4,5 +4,6 @@ config({ path: join(__dirname, '../../.env') });
 
 export default {
   PORT: process.env.PORT || '3000' ,
-  DB_HOST: process.env.DB_HOST || '27017'
+  DB_HOST: process.env.DB_HOST || '27017',
+  JWT_TOKEN: process.env.JWT_TOKEN || 'DNAJKDKSADASND',
 };

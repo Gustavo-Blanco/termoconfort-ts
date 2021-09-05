@@ -13,12 +13,11 @@ yargs
       },
     },
     async ({ component }) => {
-      
       if (component) {
-        component?.split(',').forEach(async (name) => {
+        component?.split(",").forEach(async (name) => {
           const builder = new Component(name);
           await builder.writeFiles();
-        })
+        });
       }
     }
   )

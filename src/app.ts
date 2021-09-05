@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import env from './config/env';
 import mongoose from "./database/connection";
+import apiRoutes from './router/apiRoutes';
 
 export class App {
   private app: Application;
@@ -30,7 +31,7 @@ export class App {
   };
 
   router = () => {
-    // this.app.use('/api/v1', apiRoutes);
+    this.app.use('/api/v1', apiRoutes);
   };
 
   start = async (): Promise<void> => {
