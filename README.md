@@ -13,6 +13,8 @@ This is an example of how to list things you need to use the software and how to
   npm i
   ```
 
+### Api Documentation
+https://documenter.getpostman.com/view/12146096/U16dQTqx
 <!-- USAGE EXAMPLES -->
 ## Cli
 
