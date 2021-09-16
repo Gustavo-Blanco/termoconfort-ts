@@ -3,20 +3,23 @@ import { Component } from "./component";
 
 yargs
   .command(
-    "make",
-    "make diferent files",
+    "make:component",
+    "make component",
     {
-      component: {
+      name: {
         description: "Make a component build",
-        alias: "c",
+        alias: "n",
         type: "string",
       },
     },
-    async ({ component }) => {
-      if (component) {
-        component?.split(",").forEach(async (name) => {
-          const builder = new Component(name);
-          await builder.writeFiles();
+    async ({ name }) => {
+      console.log(name);
+      if (name) {
+        name.split(",").forEach(async (componentName) => {
+          const builder = new Component(componentName);
+          await builder.basicComponent();
+          await builder.createRouter();
+          console.log(`Component ${componentName} created successfully`);
         });
       }
     }

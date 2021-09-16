@@ -1,8 +1,10 @@
 import express, { Application } from "express";
 import morgan from "morgan";
-import env from './config/env';
-import mongoose from "./database/connection";
-import apiRoutes from './router/apiRoutes';
+import env from "./config/env";
+import mongoose from "./db/connection";
+import apiRoutes from "./router/apiRoutes";
+
+export const PROJECT_PATH = __dirname;
 
 export class App {
   private app: Application;
@@ -27,16 +29,14 @@ export class App {
 
   settings = () => {
     this.app.set("port", this.port);
-
   };
 
   router = () => {
-    this.app.use('/api/v1', apiRoutes);
+    this.app.use("/api/v1", apiRoutes);
   };
 
   start = async (): Promise<void> => {
     await this.app.listen(this.app.get("port"));
     console.log(`Listen on port ${this.app.get("port")}`);
   };
-
 }

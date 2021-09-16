@@ -1,6 +1,6 @@
 import { Jwt } from '../../util/Jwt';
-import { IUser } from '../user/interface';
-import User from '../user/User';
+import { IUser } from '../../components/user/interface';
+import User from '../../components/user/User';
 
 export class Register {
   private userAttr: IUser;

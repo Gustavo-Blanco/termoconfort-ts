@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Register } from '../auth/Register';
+import { Register } from '../../service/auth/Register';
 import { IUser } from './interface';
 import { findUserByGoogle } from './method';
 import User from './User';

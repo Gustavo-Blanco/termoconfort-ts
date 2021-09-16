@@ -1,41 +1,37 @@
 import fs from "fs/promises";
 import path from "path";
-
-const componentsPath = path.join("src", "components");
-
+import {paths} from '../src/config/paths';
+import {Cmodel,Crouter,Istructure} from './content';
 export class Component {
-    
-  constructor(private name: string) {}
 
-  writeFiles = async (): Promise<void> => {
+  DIR_PATH : string;
+  MODEL_PATH: string;
+  STRUCTURE_PATH: string;
+  ROUTER_PATH: string;
+
+  constructor(private name: string) {
+    this.DIR_PATH = path.join(paths.component,name.toLowerCase());
+    this.MODEL_PATH = path.join(this.DIR_PATH,`${this.name}.ts`);
+    this.STRUCTURE_PATH = path.join(this.DIR_PATH,`I${this.name}Structure.ts`);
+    this.ROUTER_PATH = path.join(this.DIR_PATH,`${this.name}Route.ts`);
+  }
+
+  basicComponent = async (): Promise<void> => {
     try {
-      await fs.mkdir(path.join(componentsPath, this.name.toLowerCase()));
-      await fs.writeFile(
-        path.join(componentsPath, this.name.toLowerCase(), this.name + ".ts"),
-        this.modelContent()
-      );
-      await fs.writeFile(
-        path.join(componentsPath, this.name.toLowerCase(), "interface.ts"),
-        this.interfaceContent()
-      );
-      console.log(`Component ${this.name} build successfully`);
-    } catch (error) {
+      await fs.mkdir(this.DIR_PATH);
+      await fs.writeFile(this.STRUCTURE_PATH,Istructure(this.name));
+      await fs.writeFile(this.MODEL_PATH,Cmodel(this.name));
+    } catch (error:any) {
       console.log("File or directory already exists");
     }
   };
 
-  interfaceContent = (): string => {
-    return `export interface I${this.name} {
-    
-}`;
-  };
+  createRouter = async (): Promise<void> => {
+    try {
+      await fs.writeFile(this.ROUTER_PATH,Crouter);
+    } catch (error:any) {
+      console.log('There was an error: '+error.toString());
+    }
+  }
 
-  modelContent = (): string => {
-    return `import mongoose, { Schema } from "mongoose";
-import { I${this.name} } from "./interface";
-        
-const ${this.name}Schema = new Schema<I${this.name}>({}, { timestamps: true });
-        
-export default mongoose.model("${this.name}", ${this.name}Schema);`;
-  };
 }

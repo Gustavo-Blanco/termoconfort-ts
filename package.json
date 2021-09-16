@@ -24,7 +24,7 @@
     "start": "node build/index.js",
     "dev": "nodemon index.ts",
     "build": "npx tsc",
-    "make:component": "npx ts-node cli/index.ts make"
+    "make:component": "npx ts-node cli/index.ts make:component"
   },
   "keywords": [],
   "author": "",
