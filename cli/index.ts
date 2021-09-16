@@ -11,14 +11,20 @@ yargs
         alias: "n",
         type: "string",
       },
+      router: {
+        description: "Make a router in component",
+        alias: "r",
+        type: "boolean"
+      }
     },
-    async ({ name }) => {
-      console.log(name);
+    async ({ name,router }) => {
       if (name) {
         name.split(",").forEach(async (componentName) => {
           const builder = new Component(componentName);
           await builder.basicComponent();
-          await builder.createRouter();
+          if (router) {
+            await builder.createRouter();
+          }
           console.log(`Component ${componentName} created successfully`);
         });
       }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Register } from '../../service/auth/Register';
-import { IUser } from './interface';
-import { findUserByGoogle } from './method';
+import { IUser } from './IUserStructure';
+import { findUserByGoogle } from './UserMethod';
 import User from './User';
 
 export const all = async (req: Request, res: Response) => {

@@ -1,5 +1,5 @@
 import { Jwt } from '../../util/Jwt';
-import { IUser } from '../../components/user/interface';
+import { IUser } from '../../components/user/IUserStructure';
 import User from '../../components/user/User';
 
 export class Register {
