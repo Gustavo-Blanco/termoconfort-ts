@@ -7,7 +7,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     googleId: { type: String, required: true, unique: true },
     image: { type: String, required: true },
-    phoneNumber: { type: String, required: true },
+    phoneNumber: { type: String, required: false },
     role: { type: String, required: true, default: 'CLIENT' },
     token: { type: String, required: false },
   },
