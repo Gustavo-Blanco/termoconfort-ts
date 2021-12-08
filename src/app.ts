@@ -18,7 +18,7 @@ export class App {
     this.router();
     mongoose;
   }
-
+ 
   getApp = () => this.app;
 
   middlewares = () => {
