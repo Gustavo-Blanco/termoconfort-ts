@@ -13,4 +13,6 @@ export interface IProduct {
   install: boolean;
   warranty: boolean;
   enterpriseId: ObjectId;
+  stock: number;
+  price: number;
 }

@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { all, store, update } from "./ProductController";
+import { all, store, update, filter } from "./ProductController";
+import { imageFields, uploadMulter } from "../../service/ManageImage";
 
 const router: Router = Router();
 
 router.route("/all").get(all);
-router.route("/store").post(store);
+router.route("/store").post(uploadMulter.fields(imageFields), store);
 router.route("/update").put(update);
+router.route("/filter").post(filter);
 
 export default router;

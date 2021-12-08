@@ -4,7 +4,6 @@ import { IProduct } from "./IProductStructure";
 
 const imageSchema = ImageSchema;
 
-
 const ProductSchema = new Schema<IProduct>(
   {
     enterpriseId: {
@@ -14,37 +13,45 @@ const ProductSchema = new Schema<IProduct>(
     },
     name: {
       type: String,
-      required: true,
+      required: false,
     },
     brand: {
       type: String,
-      required: true,
+      required: false,
     },
     capacity: {
       type: String,
-      required: true,
+      required: false,
     },
     model: {
       type: String,
-      required: true,
+      required: false,
     },
     type: {
       type: String,
-      required: true,
+      required: false,
     },
     energyConsume: {
       type: String,
-      required: true,
+      required: false,
     },
     images: [imageSchema],
     install: {
       type: Boolean,
-      required: true,
+      required: false,
     },
     warranty: {
       type: Boolean,
-      required: true,
+      required: false,
     },
+    stock: {
+      type: Number,
+      required: false
+    },
+    price: {
+      type: Number,
+      required: false
+    }
   },
   { timestamps: true }
 );
