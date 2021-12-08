@@ -3,7 +3,7 @@ import morgan from "morgan";
 import env from "./config/env";
 import mongoose from "./db/connection";
 import apiRoutes from "./router/apiRoutes";
-
+import cors from 'cors';
 export const PROJECT_PATH = __dirname;
 
 export class App {
@@ -23,6 +23,7 @@ export class App {
 
   middlewares = () => {
     this.app.use(morgan("dev"));
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   };
