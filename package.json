@@ -24,7 +24,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "npx ts-node index",
     "dev": "nodemon -L index.ts",
     "build": "npx tsc",
     "make:component": "npx ts-node cli/index.ts make:component"
