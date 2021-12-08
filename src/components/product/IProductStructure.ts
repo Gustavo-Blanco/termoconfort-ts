@@ -15,4 +15,5 @@ export interface IProduct {
   enterpriseId: ObjectId;
   stock: number;
   price: number;
+  description: string;
 }
