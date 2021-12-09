@@ -62,3 +62,13 @@ export const filter = async (req: Request, res: Response) => {
     return res.json(error.toString());
   }
 };
+
+
+export const remove = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    return res.json(await Product.findByIdAndRemove(id));
+  } catch (error: any) {
+    return res.json(error.toString());
+  }
+}

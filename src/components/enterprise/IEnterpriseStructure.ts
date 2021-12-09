@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongoose';
 
 export interface IEnterprise {
-
+  _id?:ObjectId;
   userId: ObjectId;
   name: string;
   description: string;
