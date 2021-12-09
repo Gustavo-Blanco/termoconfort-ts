@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Query } from 'mongoose';
+import { result } from '../../response/result';
 import { uploadOneImage } from '../../service/Cloudinary';
 import { IFilterStructure } from '../filterParams/IFilterStructure';
 import Enterprise from './Enterprise';
@@ -15,9 +16,10 @@ export const all = async (req:Request,res: Response) => {
     builder.skip(skip)
     builder.limit(query.limit != null ? +query.limit! : defaultLimit);
     
-    return res.json(await builder.exec());
+    return result(res ,await builder.exec());
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
+
   }
 }
 
@@ -31,18 +33,19 @@ export const store = async (req:Request,res: Response) => {
       body.imageKey = image.public_id;
     }
 
-    return res.json(await Enterprise.create(body));
+    return result(res, await Enterprise.create(body));
     
   } catch (error:any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
+
   }
 }
 
 export const remove = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    return res.json(await Enterprise.findByIdAndRemove(id));
+    return result(res, await Enterprise.findByIdAndRemove(id));
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 }

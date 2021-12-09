@@ -26,9 +26,9 @@ export const uploadOneImage = async (image: Express.Multer.File, folder: string)
 };
 
 export const uploadManyFiles = async (files: Express.Multer.File[], folder: string) => {
+  
   const images: IImage[] = [];
   for (const file of files) {
-    
     const result = await uploadOneImage(file, folder);
     images.push({
       key: result.public_id,

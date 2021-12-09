@@ -1,11 +1,12 @@
 import multer, { Field,FileFilterCallback } from "multer";
-import { Request } from "express";
+import { Request, response } from "express";
+import { result } from "../response/result";
 
 const multerFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
-    cb(null, false);
+    cb(new Error('There are not images to save'));
   }
 }
 
