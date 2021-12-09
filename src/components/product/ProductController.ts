@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { Query, QueryCursor } from "mongoose";
+import { Query } from "mongoose";
 import { IProduct } from "./IProductStructure";
 import Product from "./Product";
-import { getPaths, removeImages } from "../../service/ManageImage";
-import { formatUploadedImages } from "../../service/Cloudinary";
+import { uploadManyFiles } from "../../service/Cloudinary";
 import { IFilterStructure } from "../filterParams/IFilterStructure";
 
 export const all = async (req: Request, res: Response) => {
@@ -17,16 +16,13 @@ export const all = async (req: Request, res: Response) => {
 export const store = async (req: Request, res: Response) => {
   try {
     const productBody = req.body as IProduct;
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     
-    const paths = getPaths(files);
-    
-    productBody.images = await formatUploadedImages(
-      paths,
+    productBody.images = await uploadManyFiles(
+      req.files as Express.Multer.File[],
       `ENTERPRISE_${productBody.enterpriseId}`
     );
-    await removeImages(paths);
-    return res.json(await Product.create(productBody));
+    
+    return res.json(productBody);
   } catch (error: any) {
     return res.json(error.toString());
   }

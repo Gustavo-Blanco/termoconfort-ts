@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { Query } from 'mongoose';
-import { uploadImage } from '../../service/Cloudinary';
-import { removeImages } from '../../service/ManageImage';
+import { uploadOneImage } from '../../service/Cloudinary';
 import { IFilterStructure } from '../filterParams/IFilterStructure';
 import Enterprise from './Enterprise';
 import { IEnterprise } from './IEnterpriseStructure';
@@ -27,10 +26,9 @@ export const store = async (req:Request,res: Response) => {
     const body = req.body as IEnterprise;
 
     if (req.file) {
-      const image = await uploadImage(req.file.path, 'PROFILES');
+      const image = await uploadOneImage(req.file!, 'PROFILES');
       body.image = image.url;
       body.imageKey = image.public_id;
-      await removeImages([req.file.path]);
     }
 
     return res.json(await Enterprise.create(body));
