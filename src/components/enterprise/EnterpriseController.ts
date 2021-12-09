@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { Query } from 'mongoose';
-import { uploadImage } from '../../service/Cloudinary';
-import { removeImages } from '../../service/ManageImage';
+import { result } from '../../response/result';
+import { uploadOneImage } from '../../service/Cloudinary';
 import { IFilterStructure } from '../filterParams/IFilterStructure';
 import Enterprise from './Enterprise';
 import { IEnterprise } from './IEnterpriseStructure';
@@ -16,9 +16,10 @@ export const all = async (req:Request,res: Response) => {
     builder.skip(skip)
     builder.limit(query.limit != null ? +query.limit! : defaultLimit);
     
-    return res.json(await builder.exec());
+    return result(res ,await builder.exec());
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
+
   }
 }
 
@@ -27,15 +28,24 @@ export const store = async (req:Request,res: Response) => {
     const body = req.body as IEnterprise;
 
     if (req.file) {
-      const image = await uploadImage(req.file.path, 'PROFILES');
+      const image = await uploadOneImage(req.file!, 'PROFILES');
       body.image = image.url;
       body.imageKey = image.public_id;
-      await removeImages([req.file.path]);
     }
 
-    return res.json(await Enterprise.create(body));
+    return result(res, await Enterprise.create(body));
     
   } catch (error:any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
+
+  }
+}
+
+export const remove = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    return result(res, await Enterprise.findByIdAndRemove(id));
+  } catch (error: any) {
+    return result(res, error.toString(), false);
   }
 }

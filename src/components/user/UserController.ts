@@ -1,14 +1,21 @@
-import { Request, Response } from 'express';
-import { Register } from '../../service/auth/Register';
-import { IUser } from './IUserStructure';
-import { findUserByGoogle } from './UserMethod';
-import User from './User';
+import { Request, Response } from "express";
+import { Register } from "../../service/auth/Register";
+import { IUser } from "./IUserStructure";
+import { findUserByGoogle } from "./UserMethod";
+import User from "./User";
+import { IResult } from "../../util/response";
+import { result } from "../../response/result";
 
-export const all = async (req: Request, res: Response) => {
+export const all = async (
+  req: Request,
+  res: Response
+): Promise<IResult | Response> => {
   try {
-    return res.json(await User.find());
+    const users = await User.find();
+
+    return result(res, users);
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 };
 
@@ -18,17 +25,18 @@ export const signIn = async (req: Request, res: Response) => {
 
     const user = await findUserByGoogle(email, googleId);
 
-    return res.header('Authorization', `Bearer ${user.token}`).json(user);
+    return result(res, user);
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 };
 
 export const signUp = async (req: Request, res: Response) => {
   try {
     const user = await new Register(req.body as IUser).save();
-    return res.header('Authorization', `Bearer ${user.token}`).json(user);
+    return result(res, user);
+
   } catch (error: any) {
-    res.json(error.toString());
+    return result(res, error.toString() , false);
   }
 };

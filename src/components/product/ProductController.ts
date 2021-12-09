@@ -1,47 +1,48 @@
-import { Request, Response } from "express";
-import { Query, QueryCursor } from "mongoose";
+import { Request, response, Response } from "express";
+import { Query } from "mongoose";
 import { IProduct } from "./IProductStructure";
 import Product from "./Product";
-import { getPaths, removeImages } from "../../service/ManageImage";
-import { formatUploadedImages } from "../../service/Cloudinary";
+import { uploadManyFiles } from "../../service/Cloudinary";
 import { IFilterStructure } from "../filterParams/IFilterStructure";
+import { result } from "../../response/result";
 
 export const all = async (req: Request, res: Response) => {
   try {
-    return res.json(await Product.find());
+    return result(res, await Product.find());
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 };
 
 export const store = async (req: Request, res: Response) => {
   try {
     const productBody = req.body as IProduct;
-    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+    console.log(req.files);
     
-    const paths = getPaths(files);
+    if (!req.files) throw result(res, "There are not files to save");
     
-    productBody.images = await formatUploadedImages(
-      paths,
+    productBody.images = await uploadManyFiles(
+      req.files as Express.Multer.File[],
       `ENTERPRISE_${productBody.enterpriseId}`
     );
-    await removeImages(paths);
-    return res.json(await Product.create(productBody));
+
+    return result(res, await Product.create(productBody));
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 };
 
 export const update = async (req: Request, res: Response) => {
   try {
     const productBody = req.body as IProduct;
-    return res.json(
+    return result(
+      res,
       await Product.findByIdAndUpdate(productBody._id, productBody, {
         new: true,
       })
     );
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
   }
 };
 
@@ -51,14 +52,23 @@ export const filter = async (req: Request, res: Response) => {
     const query = req.query as IFilterStructure;
 
     const builder: Query<IProduct[], IProduct> = Product.find(filterReq);
-    
+
     const defaultLimit = 10;
     const skip = query.page == 0 ? 0 : query.page! * defaultLimit;
-    builder.skip(skip)
+    builder.skip(skip);
     builder.limit(query.limit != null ? +query.limit! : defaultLimit);
-    
-    return res.json(await builder.exec());
+
+    return result(res, await builder.exec());
   } catch (error: any) {
-    return res.json(error.toString());
+    return result(res, error.toString(), false);
+  }
+};
+
+export const remove = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    return result(res, await Product.findByIdAndRemove(id));
+  } catch (error: any) {
+    return result(res, error.toString(), false);
   }
 };

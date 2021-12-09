@@ -1,42 +1,19 @@
-import multer, { Field } from "multer";
-import path from "path";
-import fs from "fs/promises";
+import multer, { Field,FileFilterCallback } from "multer";
+import { Request, response } from "express";
+import { result } from "../response/result";
 
-const storage = multer.diskStorage({
-  destination: (req, file, callBack) => {
-    callBack(null, "uploads");
-  },
-  filename: (req, file, callBack) => {
-    callBack(
-      null,
-      file.originalname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
+const multerFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(new Error('There are not images to save'));
+  }
+}
+
+export const uploadMulter = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: multerFilter
 });
-
-export const uploadMulter = multer({ storage });
-
-export const removeImages = async (paths: string[]) => {
-  for (const path of paths) {
-    await fs.rm(path);
-  }
-};
-
-export const getPaths = (files: { [fieldname: string]: Express.Multer.File[] }): string[] => {
-  if (!files) throw new Error("There are not images to save");
-
-  const keys = ['image1','image2','image3'];
-  const images = [];
-  
-  for (const key of keys) {
-    const file = files[key];
-    if (file) {
-      images.push(file[0]);
-    }
-  }
-
-  return images.map((file) => file.path);
-};
 
 export const imageFields: Field[] = [
   {
@@ -50,5 +27,5 @@ export const imageFields: Field[] = [
   {
     name: "image3",
     maxCount: 1,
-  }
+  },
 ];
