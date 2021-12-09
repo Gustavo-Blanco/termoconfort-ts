@@ -40,3 +40,14 @@ export const signUp = async (req: Request, res: Response) => {
     return result(res, error.toString() , false);
   }
 };
+
+
+export const show = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findById(id);
+    return result(res, user);
+  } catch (error: any) {
+    return result(res, error.toString());
+  }
+}

@@ -41,6 +41,17 @@ export const store = async (req:Request,res: Response) => {
   }
 }
 
+
+export const show = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const enterprise = await Enterprise.findById(id);
+    return result(res, enterprise);
+  } catch (error: any) {
+    return result(res, error.toString());
+  }
+}
+
 export const remove = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
