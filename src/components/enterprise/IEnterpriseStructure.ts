@@ -6,7 +6,13 @@ export interface IEnterprise {
   name: string;
   description: string;
   image: string;
+  imageKey: string;
   workers: number;
   link: string;
-  social: string[]
+  linkedin: string;
+  facebook: string;
+  twitter: string;
+  instagram: string;
+  youtube: string;
+  webPage: string;
 }

@@ -3,7 +3,7 @@ import userRoutes from '../components/user/UserRouter';
 import enterpriseRoutes from '../components/enterprise/EnterpriseRoute';
 import productRoutes from '../components/product/ProductRoute';
 
-const router: Router = Router();
+const router: Router = Router({mergeParams: true});
 
 router.use('/user', userRoutes);
 router.use('/enterprise', enterpriseRoutes);

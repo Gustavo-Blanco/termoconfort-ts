@@ -25,9 +25,34 @@ const EnterpriseSchema = new Schema<IEnterprise>(
     workers: {
       type: Schema.Types.Number,
     },
-    social: [
-      {type: Schema.Types.String},
-    ]
+    linkedin: {
+      type: Schema.Types.String,
+      required: false
+    },
+    facebook: {
+      type: Schema.Types.String,
+      required: false
+    },
+    twitter: {
+      type: Schema.Types.String,
+      required: false
+    },
+    instagram: {
+      type: Schema.Types.String,
+      required: false
+    },
+    youtube: {
+      type: Schema.Types.String,
+      required: false
+    },
+    webPage: {
+      type: Schema.Types.String,
+      required: false
+    },
+    imageKey: {
+      type: Schema.Types.String,
+      required: false
+    },
   },
   { timestamps: true }
 );
