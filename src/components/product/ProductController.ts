@@ -5,6 +5,7 @@ import Product from "./Product";
 import { uploadManyFiles } from "../../service/Cloudinary";
 import { IFilterStructure } from "../filterParams/IFilterStructure";
 import { result } from "../../response/result";
+import Post from "../post/Post";
 
 export const all = async (req: Request, res: Response) => {
   try {
@@ -63,6 +64,19 @@ export const filter = async (req: Request, res: Response) => {
     return result(res, error.toString(), false);
   }
 };
+
+
+export const show = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const builder: Query<IProduct, IProduct> = Product.findById(id);
+    builder.populate('images');
+    const post = await builder.exec();
+    return result(res, post);
+  } catch (error: any) {
+    return result(res, error.toString());
+  }
+}
 
 export const remove = async (req: Request, res: Response) => {
   try {
