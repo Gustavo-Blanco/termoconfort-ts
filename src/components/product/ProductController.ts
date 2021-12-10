@@ -71,6 +71,7 @@ export const show = async (req: Request, res: Response) => {
     const id = req.params.id;
     const builder: Query<IProduct, IProduct> = Product.findById(id);
     builder.populate('images');
+    builder.populate('enterpriseId');
     const post = await builder.exec();
     return result(res, post);
   } catch (error: any) {

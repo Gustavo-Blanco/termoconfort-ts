@@ -60,4 +60,10 @@ const ProductSchema = new Schema<IProduct>(
   { timestamps: true }
 );
 
+// ProductSchema.virtual('enterprise', {
+//   ref: 'Enterprise',
+//   localField: 'enterpriseId',
+//   foreignField: '_id'
+// });
+
 export default mongoose.model("Product", ProductSchema);
