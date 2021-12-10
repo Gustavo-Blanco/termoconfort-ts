@@ -16,4 +16,5 @@ export interface IProduct {
   stock: number;
   price: number;
   description: string;
+  isActive: boolean;
 }

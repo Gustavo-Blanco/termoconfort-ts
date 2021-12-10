@@ -7,5 +7,7 @@ export interface IUser {
     phoneNumber: string;
     role: string;
     token: string;
-    
+    isActive: boolean;
+
+    hasEnterprise?: boolean;
 }

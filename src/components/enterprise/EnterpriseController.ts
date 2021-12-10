@@ -10,9 +10,10 @@ export const all = async (req:Request,res: Response) => {
   try {
     const query = req.query as IFilterStructure;
         
-    const builder: Query<IEnterprise[], IEnterprise> = Enterprise.find();
     const defaultLimit = 10;
     const skip = query.page == 0 ? 0 : query.page! * defaultLimit;
+    const builder: Query<IEnterprise[], IEnterprise> = Enterprise.find({isActive: true});
+    // builder.where({isActive: true})
     builder.skip(skip)
     builder.limit(query.limit != null ? +query.limit! : defaultLimit);
     
@@ -41,7 +42,6 @@ export const store = async (req:Request,res: Response) => {
   }
 }
 
-
 export const show = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
@@ -55,7 +55,11 @@ export const show = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    return result(res, await Enterprise.findByIdAndRemove(id));
+    const enterprise = await Enterprise.findByIdAndUpdate(id, {
+      isActive: false
+    }, {new: true});
+
+    return result(res, enterprise);
   } catch (error: any) {
     return result(res, error.toString(), false);
   }

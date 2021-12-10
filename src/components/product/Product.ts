@@ -55,6 +55,10 @@ const ProductSchema = new Schema<IProduct>(
     description:{
       type: String,
       required: false
+    },
+    isActive: {
+      type: Boolean,
+      default: true
     }
   },
   { timestamps: true }

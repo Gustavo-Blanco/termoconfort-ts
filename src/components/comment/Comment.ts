@@ -9,6 +9,10 @@ export const CommentSchema = new Schema<IComment>({
     userId: {
         type: Schema.Types.ObjectId,
         required: true
+    },
+    isActive: {
+        type: Schema.Types.Boolean,
+        default: true
     }
 }, { timestamps: true });
 

@@ -7,5 +7,5 @@ export interface IPost {
     title: string;
     content: string;
     comments: IComment[]
-
+    isActive: boolean;
 }

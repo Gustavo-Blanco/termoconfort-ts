@@ -5,6 +5,7 @@ import { findUserByGoogle } from "./UserMethod";
 import User from "./User";
 import { IResult } from "../../util/response";
 import { result } from "../../response/result";
+import Enterprise from "../enterprise/Enterprise";
 
 export const all = async (
   req: Request,
@@ -19,13 +20,29 @@ export const all = async (
   }
 };
 
+export const actives = async (
+  req: Request,
+  res: Response
+): Promise<IResult | Response> => {
+  try {
+    const users = await User.find({isActive: true});
+
+    return result(res, users);
+  } catch (error: any) {
+    return result(res, error.toString(), false);
+  }
+};
+
 export const signIn = async (req: Request, res: Response) => {
   try {
     const { email, googleId } = req.body;
 
     const user = await findUserByGoogle(email, googleId);
-
-    return result(res, user);
+    const enterprise = await Enterprise.findOne({userId: user._id});
+    
+    const hasEnterprise = enterprise != null;
+    
+    return result(res, {user, hasEnterprise});
   } catch (error: any) {
     return result(res, error.toString(), false);
   }

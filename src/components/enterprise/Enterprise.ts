@@ -53,6 +53,11 @@ const EnterpriseSchema = new Schema<IEnterprise>(
       type: Schema.Types.String,
       required: false
     },
+    isActive: {
+      type: Schema.Types.Boolean,
+      default: true,
+      required: false
+    }
   },
   { timestamps: true }
 );

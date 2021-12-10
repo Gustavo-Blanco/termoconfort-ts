@@ -16,7 +16,11 @@ const PostSchema = new Schema<IPost>({
         type: Schema.Types.ObjectId,
         required: true
     },
-    comments: [commentSchema]
+    comments: [commentSchema],
+    isActive: {
+        type: Schema.Types.Boolean,
+        default: true
+    }
 }, { timestamps: true });
 
 

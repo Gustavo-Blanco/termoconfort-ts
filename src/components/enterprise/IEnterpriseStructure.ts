@@ -15,4 +15,5 @@ export interface IEnterprise {
   instagram: string;
   youtube: string;
   webPage: string;
+  isActive: boolean;
 }

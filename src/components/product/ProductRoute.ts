@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { all, store, update, filter, remove, show } from "./ProductController";
+import { all, store, update, filter, remove, show, byEnterprise } from "./ProductController";
 import { uploadMulter } from "../../service/ManageImage";
 
 const router: Router = Router();
@@ -10,5 +10,6 @@ router.route("/update").put(update);
 router.route("/filter").get(filter);
 router.route("/remove/:id").delete(remove);
 router.route("/show/:id").get(show);
+router.route("/by-enterprise/:enterpriseId").get(byEnterprise);
 
 export default router;

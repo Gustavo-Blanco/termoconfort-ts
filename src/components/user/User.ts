@@ -10,6 +10,7 @@ const UserSchema = new Schema<IUser>(
     phoneNumber: { type: String, required: false },
     role: { type: String, required: true, default: 'CLIENT' },
     token: { type: String, required: false },
+    isActive: {type: Boolean, default: true}
   },
   { timestamps: true }
 );
