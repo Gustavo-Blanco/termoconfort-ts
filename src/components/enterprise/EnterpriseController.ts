@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Query } from 'mongoose';
+import { Query, Types } from 'mongoose';
 import { result } from '../../response/result';
 import { uploadOneImage } from '../../service/Cloudinary';
 import { IFilterStructure } from '../filterParams/IFilterStructure';
@@ -60,6 +60,20 @@ export const remove = async (req: Request, res: Response) => {
     }, {new: true});
 
     return result(res, enterprise);
+  } catch (error: any) {
+    return result(res, error.toString(), false);
+  }
+}
+
+export const verifyEnterprise = async (req: Request, res: Response) => {
+  try {
+    const userId = new Types.ObjectId(req.params.userId!);
+
+    const build = Enterprise.find()
+    build.where({userId});
+    const enterprises = await build.exec();
+     
+    return result(res, {hasEnterprise: enterprises.length != 0});
   } catch (error: any) {
     return result(res, error.toString(), false);
   }
